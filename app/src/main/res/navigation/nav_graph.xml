@@ -27,5 +27,9 @@
         android:id="@+id/respuestaFragment"
         android:name="cl.awakelab.logotrivia.RespuestaFragment"
         android:label="fragment_respuesta"
-        tools:layout="@layout/fragment_respuesta" />
+        tools:layout="@layout/fragment_respuesta" >
+        <action
+            android:id="@+id/action_respuestaFragment_to_triviaFragment"
+            app:destination="@id/triviaFragment" />
+    </fragment>
 </navigation>
