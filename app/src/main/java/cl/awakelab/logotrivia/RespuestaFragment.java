@@ -3,10 +3,13 @@ package cl.awakelab.logotrivia;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import cl.awakelab.logotrivia.databinding.FragmentRespuestaBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +17,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class RespuestaFragment extends Fragment {
+
+    private FragmentRespuestaBinding binding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,12 +51,14 @@ public class RespuestaFragment extends Fragment {
         return fragment;
     }
 
+    private boolean resultadoCorrecto = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            resultadoCorrecto =getArguments().getBoolean("respuesta");
         }
     }
 
@@ -59,6 +66,21 @@ public class RespuestaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_respuesta, container, false);
+
+        binding = FragmentRespuestaBinding.inflate(getLayoutInflater(), container,false);
+
+        if (resultadoCorrecto == true){
+            binding.textViewRespuesta.setText("Respuesta Correcta. ");
+        }else {
+            binding.textViewRespuesta.setText("Respuesta Incorrecta");
+        }
+
+        binding.btnIntento.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("nombre", mParam1);
+            Navigation.findNavController(getView()).navigate(R.id.action_respuestaFragment_to_triviaFragment, bundle);
+        });
+
+        return binding.getRoot();
     }
 }
